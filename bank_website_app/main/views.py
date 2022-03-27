@@ -16,8 +16,7 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            # messages.success(request, "Registration successful")
-            return redirect("main:main")
+            return redirect("main:homepage")
     else:
         messages.error(request, "Unsuccessful registration. Invalid information")
         form = NewUserForm()
@@ -35,7 +34,7 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
-                return redirect("main:main")
+                return redirect("main:homepage")
             else:
                 messages.error(request, "Invalid username or password")
         else:

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django_iban.fields import IBANField, SWIFTBICField
 
 
 # Create your models here.
@@ -18,3 +19,8 @@ class Profile(models.Model):
         @receiver(post_save, sender=User)
         def save_user_profile(sender, instance, **kwargs):
             instance.profile.save()
+
+
+class AccountNumber(models.Model):
+    iban = IBANField()
+    swift_bic = SWIFTBICField()
