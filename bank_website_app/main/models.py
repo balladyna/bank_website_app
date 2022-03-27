@@ -3,13 +3,18 @@ from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django_iban.fields import IBANField, SWIFTBICField
-
+from localflavor.generic.models import IBANField
 
 # Create your models here.
 
+
+class IBAN(models.Model):
+    iban = IBANField(User)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    iban = models.ManyToManyField(IBAN)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -19,8 +24,3 @@ class Profile(models.Model):
         @receiver(post_save, sender=User)
         def save_user_profile(sender, instance, **kwargs):
             instance.profile.save()
-
-
-class AccountNumber(models.Model):
-    iban = IBANField()
-    swift_bic = SWIFTBICField()

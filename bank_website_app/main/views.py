@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import NewUserForm
-from django.contrib.auth import login, authenticate
+from .forms import NewUserForm, UserForm, ProfileForm
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -41,3 +41,15 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm
     return render(request=request, template_name="main/login.html", context={"login_form": form})
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("main:homepage")
+
+
+def userpage(request):
+    user_form = UserForm(instance=request.user)
+    profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, "main/user.html", {"user":request.user, "user_form":user_form, "profile_form":profile_form})
