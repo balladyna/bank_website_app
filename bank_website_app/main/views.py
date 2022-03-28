@@ -3,6 +3,7 @@ from .forms import NewUserForm, UserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -52,4 +53,11 @@ def logout_request(request):
 def userpage(request):
     user_form = UserForm(instance=request.user)
     profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, "main/user.html", {"user":request.user, "user_form":user_form, "profile_form":profile_form})
+    return render(request, "main/user.html",
+                  {"user": request.user, "user_form": user_form, "profile_form": profile_form})
+
+
+@login_required
+def profile(request):
+    return render(request, "main/user.html")
+
