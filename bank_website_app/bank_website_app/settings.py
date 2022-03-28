@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'tinymce',
     'localflavor',
-    'schwifty',
 ]
 
 MIDDLEWARE = [
